@@ -49,10 +49,10 @@ def subnet_details(subnet_id, organization_id):
         for m in data:
             if m.get('id') == subnet_id:
                 dns_primary = m.get('dns_primary')
-                network = m.get('network')
+                netmask = m.get('mask')
                 gateway = m.get('gateway')
 
-        return dns_primary, network, gateway
+        return dns_primary, netmask, gateway
     return None
 
 def process_pxelinux_cfg():
@@ -106,11 +106,11 @@ def process_pxelinux_cfg():
                     grub_aux = grub_aux.replace("NIC_CMD", nic)
 
                 try:
-                    dns_primary, network, gateway = subnet_details(
+                    dns_primary, netmask, gateway = subnet_details(
                                                                    HOOK_JSON.get('host').get('subnet_id'),
                                                                    HOOK_JSON.get('host').get('organization_id'))
                     grub_aux = grub_aux.replace("DNS_CMD", dns_primary )
-                    grub_aux = grub_aux.replace("NETMASK_CMD", network)
+                    grub_aux = grub_aux.replace("NETMASK_CMD", netmask)
                     grub_aux = grub_aux.replace("GW_CMD", gateway)
                 except:
                     pass

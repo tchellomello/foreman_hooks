@@ -121,22 +121,28 @@ def process_pxelinux_cfg():
 
 # calls script
 #import rpdb; rpdb.set_trace()
-process_pxelinux_cfg()
-
+try:
+    process_pxelinux_cfg()
+except:
+    pass
 
 # for troubleshooting purposes, you can save the received data to a file
 # to parse the information to be used on the trigger.
 # To accomplish it, set the variable dumpdata to True
-dumpdata = False
-if dumpdata:
-    with tempfile.NamedTemporaryFile(dir=HOOK_TEMP_DIR,
-                                     delete=False,
-                                     prefix=PREFIX) as fd:
-        fd.file.write("HOOK_OBJECT: %s\n" % HOOK_OBJECT)
-        fd.file.write("HOOK_EVENT:  %s\n" % HOOK_EVENT)
-        fd.file.write("HOOK_JSON:   %s\n" % HOOK_JSON)
+try:
+    dumpdata = False
+    if dumpdata:
+        with tempfile.NamedTemporaryFile(dir=HOOK_TEMP_DIR,
+                                         delete=False,
+                                         prefix=PREFIX) as fd:
+            fd.file.write("HOOK_OBJECT: %s\n" % HOOK_OBJECT)
+            fd.file.write("HOOK_EVENT:  %s\n" % HOOK_EVENT)
+            fd.file.write("HOOK_JSON:   %s\n" % HOOK_JSON)
 
-        # local variables
-        fd.file.flush()
+            # local variables
+            fd.file.flush()
+
+except:
+    pass
 
 sys.exit(0)
